@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+<meta charset="utf-8">
+<meta http-eqhiv="X-UA-Compatible" content="IE=edge">
+<title>Ship List</title>
+<!-- 이상 주성 -->
+<style>
+    	#mainList{
+        	width:2000px;
+        }
+        
+        input{
+        	border: 1px solid black;
+            border-radius:3px
+        }
+
+        input::-webkit-inner-spin-button {
+    		-webkit-appearance: none;
+            border-radius:3px
+        }
+       
+        #title{
+        	font-size: 11px;
+            font-style: oblique
+        }
+
+        #center{
+        	font-weight: bolder;
+        	font-size: 25px;
+            font-style: normal
+        }
+       
+        #memo{
+        	border: 1px solid #006400;
+        	border-top: 5px solid #006400;
+        	position: absolute;
+  			top: 14px;
+ 			left: 375px;
+            width:302px;
+        	height:126px
+        }
+       
+        [type="radio"]{
+        	accent-color: #006400;
+        	font-size:30px;
+        	width:23px;
+        	height:23px;
+		}
+       
+    	#takeTime, #giveTime{
+			text-align: center;
+        	width:60px;
+		}
+        #takeDev, #giveDev{
+        	text-align: center;
+        	width:120px;
+        }
+        #takeSol,  #giveSol, #mySol{
+        	width:75px;
+		}
+        #takeLoc, #giveLoc{
+        	text-align: center;
+        	width:116px;
+        }
+     	#takePoint, #givePoint{
+        	text-align: center;
+        	width:90px;
+        }
+        #shipName{
+        	text-align: center;
+    		width:100px;
+        }
+        #shipType{
+        	text-align: center;
+    		width:100px;
+        }
+        #shipManNum{
+        	text-align: center;
+    		width:40px;
+        }
+        #port{
+        	text-align: center;
+    		width:200px;
+        }
+        #color{
+        	text-align: center;
+    		width:70px;
+        }
+        #roof, #tent, #pilotHouse{
+        	text-align: center;
+    		width:20px;
+        }
+        #attribute{
+        	text-align: center;
+    		width:300px;
+        }
+        #shipNum{
+        	text-align: center;
+    		width:100px;
+        }
+        #shipNum{
+        	text-align: center;
+    		width:200px;
+        }
+       
+       
+        table{
+        	border: 1px solid black;
+  			border-collapse: collapse;
+        }
+        th{
+        	font-weight: bolder;
+        }
+        #shipDel{
+            font-size: 15px;
+        	border: 1px solid #006400;
+            background-color: #006400;
+            color: white;
+        	width: 100px
+        }
+       
+    </style>
+</head>
+
+<body>
+    <ul id="root">
+    	<input type="text" id=memo placeholder=" 메모"></div>
+        <div id="main">
+        	<div id = 'title'>
+            <div id = 'center'>선박일지 자동화 v1.0.0</div>
+            영흥소초 진여분대장 -3강민규 23.02.22~23.02.25<br>
+            </div><br>
+           
+           
+           
+            [▶ : 필수기입사항 / ▷ : 선택기입사항]<br><br>
+           
+           
+           	[인수: '새로운 선박 등록' 선택 후 기입]<br>
+        	▶ 인수시간: <input id="takeTime" type="number"><br>
+        	▶ 인수장비(관등성명): <input id="takeDev" type="text">
+            	 ( <input id="takeSol" type="text" value="-"> ) : 최초식별인 경우 '최초식별'기입<br>
+            ▶ 인수지점 (인수좌표): <input id="takeLoc" type="text">
+            	( BG <input id="takePoint" type="text"> )<br><br>
+             
+            ▶ 선종: <input id="shipType" type="text"><br>
+            ▷ 선명: <input id="shipName" type="text"><br>
+           
+            ▷ 인원: <input id="shipManNum"  type="number">명<br>
+            ▶ 본인 관등성명: <input id="mySol" type="text" value="-"><br>
+            ▶ 출항지: <input id="port" type="text"> : 불명인 경우 '최초지점' '최초좌표'기입<br>
+            ▷ 색상: <input id="color" type="text"><br>
+            ▶ 선실: <input id="roof" type="text"> /
+            천막: <input id="tent" type="text"> /
+            조타실: <input id="pilotHouse" type="text"><br>
+            ▷ 기타특징: <input id="attribute" type="text"><br>
+            ▶ 식별번호: <input id="shipNum" type="text"> : 없는 경우 'X'기입<br><br>
+           
+           	[인계: 하단 표에서 선박 선택 후 기입]<br>
+            ▶ 인계시간: <input id="giveTime" type="number"><br>
+            ▶ 인계장비(관등성명): <input id="giveDev" type="text">
+            	 ( <input id="giveSol" type="text" value="-"> )<br>
+            ▶ 인계지점 (인계좌표): <input id="giveLoc" type="text">
+            	( BG <input id="givePoint" type="text"> )<br>
+               
+        </div><br>
+       
+        <div id="mainList">
+        	<input type="radio" id="newShipAddition" name="shipList"
+            	checked="true" style="width:17px;height:17px">
+        	<label for="newShipAddition">새로운 선박 등록</label>
+        	&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;
+          	<input type="button" id="shipDel" value="선박 삭제"> [하단 표에서 선박 선택 후 클릭]<br><br>
+           
+            <table id="shipTable" border="1">
+				<th>선택</th>
+				<th>최초시간</th>
+                <th>이탈(소실)시간</th>
+                <th>인계한 부대(>영흥)</th>
+                <th>현위치</th>
+                <th>BG좌표(BG)</th>
+                <th>선종</th>
+                <th>선명(국적)</th>
+                <th>인원</th>
+                <th>신호 확인 유무</th>
+                <th>특징</th>
+                <th>조치</th>
+                <th>인수한 부대(영흥>)</th>
+                <th>비고</th>
+            </table>
+        </div>
+    </ul>
+</body>
+
+<script>
+    const $root = document.getElementById('root');
+    const $main = document.getElementById('main');
+    const $mainList = document.getElementById('mainList');
+    const $newShipAddition = document.getElementById('newShipAddition');
+   
+    const $takeTimeInput = document.getElementById('takeTime');
+   
+    const $giveTimeInput = document.getElementById('giveTime');
+   
+    const $takeDevInput = document.getElementById('takeDev');
+    const $takeSolInput = document.getElementById('takeSol');
+   
+    const $takeLocInput = document.getElementById('takeLoc');
+    const $giveLocInput = document.getElementById('giveLoc');
+   
+    const $takePointInput = document.getElementById('takePoint');
+    const $givePointInput = document.getElementById('givePoint');
+   
+    const $shipTypeInput = document.getElementById('shipType');
+   
+    const $shipNameInput = document.getElementById('shipName');
+   
+    const $shipManNumInput = document.getElementById('shipManNum');
+   
+    //X
+   
+    const $mySolInput = document.getElementById('mySol');
+    const $portInput = document.getElementById('port');
+    const $colorInput = document.getElementById('color');
+    const $roofInput = document.getElementById('roof');
+    const $tentInput = document.getElementById('tent');
+    const $pilotHouseInput = document.getElementById('pilotHouse');
+    const $attributeInput = document.getElementById('attribute');
+   
+    //조치감시
+   
+    const $giveDevInput = document.getElementById('giveDev');
+    const $giveSolInput = document.getElementById('giveSol');
+   
+    const $shipNumInput = document.getElementById('shipNum');
+   
+   
+   	
+    const $shipTable = document.getElementById('shipTable');
+   
+    $newShipAddition.addEventListener('click', newShip);
+    function newShip(){
+    	$takeTimeInput.placeholder = '';
+            $giveTimeInput.placeholder = '';
+            $takeDevInput.placeholder = '';
+           	$takeSolInput.placeholder = '';
+         	$takeLocInput.placeholder = '';
+
+            $giveLocInput.placeholder = '';
+            $takePointInput.placeholder = '';
+                $givePointInput.placeholder = '';
+                $shipTypeInput.placeholder = '';
+                $shipNameInput.placeholder = '';
+
+                $shipManNumInput.placeholder = '';
+                $mySolInput.placeholder = '';
+                $portInput.placeholder  = '';
+                $colorInput.placeholder = '';
+                $roofInput.placeholder = '';
+
+                $tentInput.placeholder  = '';
+                $pilotHouseInput.placeholder = '';
+                $attributeInput.placeholder  = '';
+                $giveDevInput.placeholder  = '';
+                $giveSolInput.placeholder = '';
+
+                $shipNumInput.placeholder = '';    
+    };
+   
+    $main.addEventListener('keyup', updateShip);
+    function updateShip() {
+        if (window.event.keyCode == 13 && document.querySelector('input[name="shipList"]:checked').id == 'newShipAddition') {
+               
+            console.log('앵');
+           	const $newRow = document.createElement('tr');
+           
+            const $ship = document.createElement('input');
+	$ship.type = 'radio';
+            $ship.name = 'shipList';
+            $ship.style='width:17px;height:17px';
+           
+        	$newRow.appendChild(document.createElement('td').appendChild($ship));
+           
+            //
+            $ship.dataset.takeTime = $takeTimeInput.value;
+   
+            $ship.dataset.giveTime = $giveTimeInput.value;
+   
+            $ship.dataset.takeDev = $takeDevInput.value;
+            $ship.dataset.takeSol = $takeSolInput.value;
+   
+            $ship.dataset.takeLoc = $takeLocInput.value;
+            $ship.dataset.giveLoc = $giveLocInput.value;
+   
+            $ship.dataset.takePoint = $takePointInput.value;
+            $ship.dataset.givePoint = $givePointInput.value;
+
+            $ship.dataset.shipType = $shipTypeInput.value;
+
+            $ship.dataset.shipName = $shipNameInput.value;
+
+            $ship.dataset.shipManNum = $shipManNumInput.value;
+
+            //X
+
+            $ship.dataset.mySol = $mySolInput.value;
+            $ship.dataset.port = $portInput.value;
+            $ship.dataset.color = $colorInput.value;
+            $ship.dataset.roof = $roofInput.value;
+            $ship.dataset.tent = $tentInput.value;
+            $ship.dataset.pilotHouse = $pilotHouseInput.value;
+            $ship.dataset.attribute = $attributeInput.value;
+
+            //조치감시
+
+            $ship.dataset.giveDev = $giveDevInput.value;
+            $ship.dataset.giveSol = $giveSolInput.value;
+
+            $ship.dataset.shipNum = $shipNumInput.value;
+            //
+           
+            inputTable($newRow, $ship.dataset.takeTime);            
+            inputTable($newRow, $ship.dataset.giveTime);
+            inputTable($newRow, $ship.dataset.takeDev + ' ' + $ship.dataset.takeSol);
+            inputTable($newRow, $ship.dataset.takeLoc + ' >' + $ship.dataset.giveLoc);
+            inputTable($newRow, $ship.dataset.takePoint + ' >' + $ship.dataset.givePoint);
+            inputTable($newRow, $ship.dataset.shipType);
+            inputTable($newRow, '식별,' + $ship.dataset.shipName);
+            inputTable($newRow, $ship.dataset.shipManNum + '명');
+            inputTable($newRow, 'X');
+            inputTable($newRow, '(' + $ship.dataset.mySol + ') ' + $ship.dataset.port + '(출항지)' + $ship.dataset.color + '(색상) 선실' + $ship.dataset.roof + '천막' + $ship.dataset.tent + ' 조타실' + $ship.dataset.pilotHouse + ' (특징)' + $ship.dataset.attribute + '(기타특징)');
+            inputTable($newRow, '추적감시');
+            inputTable($newRow, $ship.dataset.giveDev + ' ' + $ship.dataset.giveSol);
+            inputTable($newRow, $ship.dataset.shipNum);
+
+            $ship.addEventListener('click', upload);
+            function upload() {
+            	$takeTimeInput.placeholder = $ship.dataset.takeTime;
+            	$giveTimeInput.placeholder = $ship.dataset.giveTime;
+            	$takeDevInput.placeholder = $ship.dataset.takeDev;
+            	$takeSolInput.placeholder = $ship.dataset.takeSol;
+            	$takeLocInput.placeholder = $ship.dataset.takeLoc;
+
+            	$giveLocInput.placeholder = $ship.dataset.giveLoc;
+           	 	$takePointInput.placeholder = $ship.dataset.takePoint;
+            	$givePointInput.placeholder = $ship.dataset.givePoint;
+            	$shipTypeInput.placeholder = $ship.dataset.shipType;
+            	$shipNameInput.placeholder = $ship.dataset.shipName;
+
+            	$shipManNumInput.placeholder = $ship.dataset.shipManNum;
+            	$mySolInput.placeholder = $ship.dataset.mySol;
+            	$portInput.placeholder = $ship.dataset.port;
+            	$colorInput.placeholder = $ship.dataset.color;
+            	$roofInput.placeholder = $ship.dataset.roof;
+
+            	$tentInput.placeholder = $ship.dataset.tent;
+            	$pilotHouseInput.placeholder = $ship.dataset.pilotHouse;
+            	$attributeInput.placeholder = $ship.dataset.attribute;
+            	$giveDevInput.placeholder = $ship.dataset.giveDev;
+            	$giveSolInput.placeholder = $ship.dataset.giveSol;
+
+            	$shipNumInput.placeholder = $ship.dataset.shipNum;
+	};
+
+            empty();
+
+            $shipTable.appendChild($newRow);
+           
+        }else if(window.event.keyCode == 13){
+       	const $selectShip = document.querySelector('input[name="shipList"]:checked');
+
+           	if($shipNameInput.value) $selectShip.dataset.shipName = $shipNameInput.value;
+        	if($shipTypeInput.value) $selectShip.dataset.shipType = $shipTypeInput.value;
+            if($takeTimeInput.value) $selectShip.dataset.takeTime = $takeTimeInput.value;
+            if($giveTimeInput.value) $selectShip.dataset.giveTime = $giveTimeInput.value;
+            if($takeDevInput.value) $selectShip.dataset.takeDev = $takeDevInput.value;
+            if($takeSolInput.value) $selectShip.dataset.takeSol = $takeSolInput.value;
+            if($takeLocInput.value) $selectShip.dataset.takeLoc = $takeLocInput.value;
+            if($giveLocInput.value) $selectShip.dataset.giveLoc = $giveLocInput.value;
+            if($takePointInput.value) $selectShip.dataset.takePoint = $takePointInput.value;
+            if($givePointInput.value) $selectShip.dataset.givePoint = $givePointInput.value;
+            if($shipTypeInput.value) $selectShip.dataset.shipType = $shipTypeInput.value;
+            if($shipNameInput.value) $selectShip.dataset.shipName = $shipNameInput.value;
+            if($shipManNumInput.value) $selectShip.dataset.shipManNum = $shipManNumInput.value;
+            if($mySolInput.value) $selectShip.dataset.mySol = $mySolInput.value;
+            if($portInput.value) $selectShip.dataset.port = $portInput.value;
+            if($colorInput.value) $selectShip.dataset.color = $colorInput.value;
+            if($roofInput.value) $selectShip.dataset.roof = $roofInput.value;
+            if($tentInput.value) $selectShip.dataset.tent = $tentInput.value;
+            if($pilotHouseInput.value) $selectShip.dataset.pilotHouse = $pilotHouseInput.value;
+            if($attributeInput.value) $selectShip.dataset.attribute = $attributeInput.value;
+            if($giveDevInput.value) $selectShip.dataset.giveDev = $giveDevInput.value;
+            if($giveSolInput.value) $selectShip.dataset.giveSol = $giveSolInput.value;
+            if($shipNumInput.value) $selectShip.dataset.shipNum = $shipNumInput.value;
+			
+            const $selectShipRow = $selectShip.parentElement;
+            $selectShipRow.innerHTML = '';
+            $selectShipRow.appendChild(document.createElement('td').appendChild($selectShip));
+
+            inputTable($selectShipRow, $selectShip.dataset.takeTime);            
+            inputTable($selectShipRow, $selectShip.dataset.giveTime);
+            inputTable($selectShipRow, $selectShip.dataset.takeDev + ' ' + $selectShip.dataset.takeSol);
+            inputTable($selectShipRow, $selectShip.dataset.takeLoc + ' >' + $selectShip.dataset.giveLoc);
+            inputTable($selectShipRow, $selectShip.dataset.takePoint + ' >' + $selectShip.dataset.givePoint);
+            inputTable($selectShipRow, $selectShip.dataset.shipType);
+            inputTable($selectShipRow, '식별,' + $selectShip.dataset.shipName);
+            inputTable($selectShipRow, $selectShip.dataset.shipManNum + '명');
+            inputTable($selectShipRow, 'X');
+            inputTable($selectShipRow,'(' + $selectShip.dataset.mySol + ') ' + $selectShip.dataset.port + '(출항지)' + $selectShip.dataset.color + '(색상) 선실' + $selectShip.dataset.roof + '천막' + $selectShip.dataset.tent + ' 조타실' + $selectShip.dataset.pilotHouse + ' (특징)' + $selectShip.dataset.attribute + '(기타특징)');          
+            inputTable($selectShipRow, '추적감시');
+            inputTable($selectShipRow, $selectShip.dataset.giveDev + ' ' + $selectShip.dataset.giveSol);
+            inputTable($selectShipRow, $selectShip.dataset.shipNum);
+
+           	$newShipAddition.checked = 'true';
+           
+          	inputEmpty();
+            empty();        
+        }
+    };
+   
+    document.getElementById('shipDel').addEventListener('click', shipDelFunc);
+
+    function shipDelFunc() {
+    	if(document.querySelector('input[name="shipList"]:checked').id != 'newShipAddition'){
+        	const $selectShipRow = document.querySelector('input[name="shipList"]:checked').parentElement;
+        	($selectShipRow.parentElement).removeChild($selectShipRow);
+        	$newShipAddition.checked = 'true';
+        	inputEmpty();
+        }
+    }
+   
+    function empty() {
+        	$takeTimeInput.value = '';
+            $giveTimeInput.value = '';
+            $takeDevInput.value = '';
+            $takeSolInput.value = '';  
+            $takeLocInput.value = '';
+           
+            $giveLocInput.value = '';  
+            $takePointInput.value = '';
+            $givePointInput.value = '';
+            $shipTypeInput.value = '';
+            $shipNameInput.value = '';
+           
+            $shipManNumInput.value = '';
+            $mySolInput.value = '';
+            $portInput.value = '';
+            $colorInput.value = '';
+            $roofInput.value = '';
+           
+            $tentInput.value = '';
+            $pilotHouseInput.value = '';
+            $attributeInput.value = '';
+            $giveDevInput.value = '';
+            $giveSolInput.value = '';
+           
+            $shipNumInput.value = '';
+    };
+   
+    function inputEmpty(){
+        $takeTimeInput.placeholder = '';
+        $giveTimeInput.placeholder = '';
+        $takeDevInput.placeholder = '';
+        $takeSolInput.placeholder = '';
+        $takeLocInput.placeholder = '';
+
+        $giveLocInput.placeholder = '';
+        $takePointInput.placeholder = '';
+        $givePointInput.placeholder = '';
+        $shipTypeInput.placeholder = '';
+        $shipNameInput.placeholder = '';
+
+        $shipManNumInput.placeholder = '';
+        $mySolInput.placeholder = '';
+        $portInput.placeholder  = '';
+        $colorInput.placeholder = '';
+        $roofInput.placeholder = '';
+
+        $tentInput.placeholder  = '';
+        $pilotHouseInput.placeholder = '';
+        $attributeInput.placeholder  = '';
+        $giveDevInput.placeholder  = '';
+        $giveSolInput.placeholder = '';
+
+        $shipNumInput.placeholder = '';
+       
+    };
+   
+    function inputTable($row, value){
+    	const $shipLabel = document.createElement('td');
+        $shipLabel.innerHTML = value;
+        $row.appendChild($shipLabel);
+    }
+</script>
+</html>
